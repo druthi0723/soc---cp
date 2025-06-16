@@ -1,0 +1,42 @@
+#include <queue>
+using namespace std;
+
+class MyStack {
+private:
+    queue<int> q1, q2;
+public:
+    MyStack() {}
+    
+    void push(int x) {
+        q1.push(x);
+    }
+    
+    int pop() {
+        // Move all but last element from q1 to q2
+        while (q1.size() > 1) {
+            q2.push(q1.front());
+            q1.pop();
+        }
+        int val = q1.front();
+        q1.pop();
+        swap(q1, q2); // q1 now holds remaining elements
+        return val;
+    }
+    
+    int top() {
+        // Move all but last element from q1 to q2
+        while (q1.size() > 1) {
+            q2.push(q1.front());
+            q1.pop();
+        }
+        int val = q1.front();
+        q2.push(val); // Reinsert the top element
+        q1.pop();
+        swap(q1, q2); // Restore structure
+        return val;
+    }
+    
+    bool empty() {
+        return q1.empty() && q2.empty();
+    }
+};
