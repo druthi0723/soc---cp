@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) {
+        // Use max heap (priority queue)
+        priority_queue<int> maxHeap;
+        
+        // Add all stones to the heap
+        for (int stone : stones) {
+            maxHeap.push(stone);
+        }
+        
+        // Keep smashing until at most one stone remains
+        while (maxHeap.size() > 1) {
+            int first = maxHeap.top();
+            maxHeap.pop();
+            int second = maxHeap.top();
+            maxHeap.pop();
+            
+            // If stones have different weights, add the difference back
+            if (first != second) {
+                maxHeap.push(first - second);
+            }
+        }
+        
+        // Return the last stone's weight, or 0 if no stones left
+        return maxHeap.empty() ? 0 : maxHeap.top();
+    }
+};
