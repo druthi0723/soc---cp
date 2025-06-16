@@ -1,0 +1,19 @@
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class KthLargest {
+private:
+    vector<int> nums;
+    int k;
+public:
+    KthLargest(int k, vector<int>& nums) : k(k), nums(nums) {
+        sort(this->nums.rbegin(), this->nums.rend()); // Sort descending
+    }
+    
+    int add(int val) {
+        nums.push_back(val);
+        sort(nums.rbegin(), nums.rend()); // Re-sort descending
+        return nums[k-1];
+    }
+};
