@@ -1,0 +1,61 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <unordered_map>
+using namespace std;
+
+// Function to return precedence of operators
+int precedence(char op) {
+    if (op == '^') return 4;
+    if (op == '*' || op == '/') return 3;
+    if (op == '+' || op == '-') return 2;
+    return 0;
+}
+
+// Function to check if the character is an operator
+bool isOperator(char c) {
+    return c == '^' || c == '*' || c == '/' || c == '+' || c == '-';
+}
+
+// Main function to convert infix to postfix
+string infixToPostfix(const string& s) {
+    stack<char> st;
+    string output;
+    for (char c : s) {
+        if (c == ' ') continue;
+        if (isalnum(c)) {
+            output += c;
+        } else if (c == '(') {
+            st.push(c);
+        } else if (c == ')') {
+            while (!st.empty() && st.top() != '(') {
+                output += st.top();
+                st.pop();
+            }
+            if (!st.empty()) st.pop(); // Remove '('
+        } else if (isOperator(c)) {
+            while (!st.empty() && st.top() != '(' &&
+                   (precedence(st.top()) > precedence(c) ||
+                    (precedence(st.top()) == precedence(c)))) {
+                output += st.top();
+                st.pop();
+            }
+            st.push(c);
+        }
+    }
+    // Pop remaining operators from stack
+    while (!st.empty()) {
+        output += st.top();
+        st.pop();
+    }
+    return output;
+}
+
+// Example usage
+int main() {
+    string s;
+    cout << "Enter infix expression: ";
+    getline(cin, s);
+    cout << "Postfix expression: " << infixToPostfix(s) << endl;
+    return 0;
+}
