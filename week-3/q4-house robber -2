@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+          int n=nums.size();
+          if(n==0)return 0;
+          if(n==1)return nums[0];
+          if(n==2)return max(nums[0],nums[1]);
+         int  prev1=0;
+          int prev=nums[0];
+          int sum1=0;
+          int sum2=0;
+          for(int i=1;i<n-1;i++){
+            sum1=max(nums[i]+prev1,prev);
+            prev1=prev;
+            prev=sum1;
+          };
+          int past1=0;
+          int past=nums[1];
+            for(int i=2;i<n;i++){
+            sum2=max(nums[i]+past1,past);
+            past1=past;
+            past=sum2;
+          };
+          return max(sum1,sum2);
+                  
+    }
+};
