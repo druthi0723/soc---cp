@@ -1,0 +1,21 @@
+#include <bits/stdc++.h> 
+using namespace std;
+
+bool f(int ind, int tar, vector<vector<int>> &dp, vector<int> &arr) {
+    if (tar == 0) return true;
+    if (ind == 0) return arr[0] == tar;
+    
+    if (dp[ind][tar] != -1) return dp[ind][tar];
+
+    bool not_take = f(ind - 1, tar, dp, arr);
+    bool take = false;
+    if (arr[ind] <= tar)
+        take = f(ind - 1, tar - arr[ind], dp, arr);
+
+    return dp[ind][tar] = take || not_take;
+}
+
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    vector<vector<int>> dp(n, vector<int>(k + 1, -1));
+    return f(n - 1, k, dp, arr);
+}
