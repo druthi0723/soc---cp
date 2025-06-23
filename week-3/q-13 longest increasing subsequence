@@ -1,0 +1,14 @@
+class Solution {
+public:
+int f(int prev,int ind,vector<vector<int>>&v,vector<int>&nums){
+    if(ind==nums.size())return 0;
+    if(v[prev+1][ind]!=-1)return v[prev+1][ind];
+    if(prev==-1 || nums[ind]>nums[prev]){
+    return v[prev+1][ind]=max(f(prev,ind+1,v,nums),1+f(ind,ind+1,v,nums));};
+ return v[prev+1][ind]=f(prev,ind+1,v,nums);};
+    int lengthOfLIS(vector<int>& nums) {
+          int n=nums.size();
+          vector<vector<int>>v(n+1,vector<int>(n,-1));
+          return f(-1,0,v,nums);
+     }
+};
